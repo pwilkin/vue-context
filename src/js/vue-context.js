@@ -12,6 +12,21 @@ import {
 } from './utils';
 import { normalizeSlot } from './normalize-slot';
 
+function findViewportParent(element) {
+    if (!element) {
+        return null;
+    } else {
+        let transform = getComputedStyle(element, null).getPropertyValue("transform");
+        let filter = getComputedStyle(element, null).getPropertyValue("filter");
+        let contain = getComputedStyle(element, null).getPropertyValue("contain");
+        if ((transform && transform !== "none") || (filter && filter !== "none") || (contain === "paint")) {
+            return element;
+        } else {
+            return findViewportParent(element.parentElement);
+        }
+    }
+}
+
 export default {
     directives: {
         onClickaway
@@ -294,9 +309,23 @@ export default {
             const elementWidth = this.useScrollWidth ? element.scrollWidth : element.offsetWidth;
             const largestWidth = window.innerWidth - elementWidth - this.widthOffset;
 
-            let rect = element.parentElement.getBoundingClientRect();
+            let parent = element.parentElement;
+            let viewportParent = findViewportParent(parent);
+
+            let rect = parent.getBoundingClientRect();
             top -= rect.top;
             left -= rect.left;
+
+            if (viewportParent) {
+                let paddingLeft = getComputedStyle(viewportParent, null).getPropertyValue("padding-left");
+                let paddingTop = getComputedStyle(viewportParent, null).getPropertyValue("padding-top");
+                if (paddingLeft) {
+                    left += parseFloat(paddingLeft);
+                }
+                if (paddingTop) {
+                    top += parseFloat(paddingTop);
+                }
+            }
 
             if (top > largestHeight) {
                 top = largestHeight;
