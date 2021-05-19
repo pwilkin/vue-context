@@ -294,6 +294,10 @@ export default {
             const elementWidth = this.useScrollWidth ? element.scrollWidth : element.offsetWidth;
             const largestWidth = window.innerWidth - elementWidth - this.widthOffset;
 
+            let rect = element.getBoundingClientRect();
+            top -= rect.top;
+            left -= rect.left;
+
             if (top > largestHeight) {
                 top = largestHeight;
             }

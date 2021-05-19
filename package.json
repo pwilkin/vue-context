@@ -1,7 +1,7 @@
 {
-  "name": "vue-context",
-  "version": "6.0.0",
-  "description": "A simple vue context menu component.",
+  "name": "vue-context-v2",
+  "version": "1.0.1",
+  "description": "A simple vue context menu component - forked from vue-context",
   "main": "src/js/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --env.mixfile=build/webpack.mix.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
@@ -17,25 +17,25 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rawilk/vue-context.git"
+    "url": "git+https://github.com/pwilkin/vue-context.git"
   },
-  "author": "Randall Wilk <randall@randallwilk.com>",
+  "author": "Piotr Wilkin <ilintar@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rawilk/vue-context/issues"
+    "url": "https://github.com/pwilkin/vue-context/issues"
   },
-  "homepage": "https://vue-context.com/docs",
+  "homepage": "https://github.com/pwilkin/vue-context",
   "dependencies": {
     "vue-clickaway": "^2.2.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.11.0",
-    "cross-env": "^5.2.1",
+    "@babel/preset-env": "^7.14.2",
+    "cross-env": "^7.0.3",
     "laravel-mix": "^4.1.4",
     "resolve-url-loader": "^2.3.2",
-    "sass": "^1.26.10",
+    "sass": "^1.32.13",
     "sass-loader": "^7.3.1",
-    "vue": "^2.6.11",
-    "vue-template-compiler": "^2.6.11"
+    "vue": "^2.6.12",
+    "vue-template-compiler": "^2.6.12"
   }
 }
