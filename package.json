@@ -1,6 +1,6 @@
 {
   "name": "vue-context-v2",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple vue context menu component - forked from vue-context",
   "main": "src/js/index.js",
   "scripts": {

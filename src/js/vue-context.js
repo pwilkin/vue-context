@@ -12,18 +12,28 @@ import {
 } from './utils';
 import { normalizeSlot } from './normalize-slot';
 
+function isViewport(element) {
+    let transform = getComputedStyle(element, null).getPropertyValue("transform");
+    let filter = getComputedStyle(element, null).getPropertyValue("filter");
+    let contain = getComputedStyle(element, null).getPropertyValue("contain");
+    return (transform && transform !== "none") || (filter && filter !== "none") || (contain === "paint");
+}
+
 function findViewportParent(element) {
     if (!element) {
         return null;
     } else {
-        let transform = getComputedStyle(element, null).getPropertyValue("transform");
-        let filter = getComputedStyle(element, null).getPropertyValue("filter");
-        let contain = getComputedStyle(element, null).getPropertyValue("contain");
-        if ((transform && transform !== "none") || (filter && filter !== "none") || (contain === "paint")) {
-            return element;
-        } else {
-            return findViewportParent(element.parentElement);
-        }
+        return isViewport(element) ? element : findViewportParent(element.parentElement);
+    }
+}
+
+function findScrollParent(parent, viewportParent) {
+    if (parent.scrollTop || parent.scrollLeft) {
+        return parent;
+    } else if (parent === viewportParent || parent == null) {
+        return null;
+    } else {
+        return findScrollParent(parent.parentElement, viewportParent);
     }
 }
 
@@ -311,10 +321,15 @@ export default {
 
             let parent = element.parentElement;
             let viewportParent = findViewportParent(parent);
+            let scrollParent = findScrollParent(parent, viewportParent);
 
             let rect = parent.getBoundingClientRect();
             top -= rect.top;
             left -= rect.left;
+            if (scrollParent) {
+                top -= scrollParent.scrollTop;
+                left -= scrollParent.scrollLeft;
+            }
 
             if (viewportParent) {
                 let paddingLeft = getComputedStyle(viewportParent, null).getPropertyValue("padding-left");
